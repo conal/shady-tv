@@ -26,7 +26,7 @@ import Control.Compose (result)
 
 import qualified Shady.Vec as V
 import Shady.Language.Exp hiding (indices)
-import Shady.Misc (Sink,Action)
+import Shady.Misc (Sink,Action,forget)
 import Shady.Run (MeshSize,grid)
 import Shady.MechanicsGL (EyePos,mkIndices,setupMatrices)
 import Shady.RunSurface (FullSurf,compileSurf,EyePosE)
@@ -58,7 +58,7 @@ mapR = result.result.fmap
 compile1 :: (FromE u', u ~ ExpT u', HasType u, HasExpr u) =>
             (u' -> GeometryE) -> Render (Sink u)
 compile1 f size eyePos@(ex,ey,ez) =
-  do glewInit
+  do forget glewInit
      -- putStrLn "setupMatrices"
      -- setupMatrices eyePos
      -- putStrLn "mkIndices"
@@ -98,9 +98,12 @@ instance Compile ((a',b') -> c') ((a,b) -> c) => Compile (a' -> b' -> c') (a -> 
 
 -- | Input an image from a file.
 samplerIn :: In Sampler2
-samplerIn = (sampler2 . textureID) <$> textureIn
+samplerIn = (sampler2 . fromIntegral . textureID) <$> textureIn
  where
    textureID (TextureObject i) = i     -- not exported from OpenGL
+
+-- The fromIntegral above converts from GLuint to Int.  shady-gen uses Int
+-- to avoid depending on OpenGL.
 
 -- | Compile and run.  See also 'compileUI'
 runUI :: Compile src obj => MeshSize -> EyePos -> Out obj -> src -> Action

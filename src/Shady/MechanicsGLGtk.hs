@@ -24,7 +24,7 @@ import qualified Graphics.UI.Gtk.OpenGL as GtkGL
 
 import qualified Graphics.Glew as Glew
 
-import Shady.Misc (Action,Sink)
+import Shady.Misc (Action,Sink,forget)
 
 -- temp.
 
@@ -33,9 +33,9 @@ import Shady.Misc (Action,Sink)
 shadyInit :: String -> IO (Sink Action)
 shadyInit title =
   do -- putStrLn "shadyInit"
-     Gtk.initGUI
+     forget Gtk.initGUI
      -- putStrLn "past initGUI"
-     GtkGL.initGL
+     forget GtkGL.initGL
      -- putStrLn "past initGL"
      glconfig <- GtkGL.glConfigNew [GtkGL.GLModeRGBA,
                                     GtkGL.GLModeDepth,
@@ -50,7 +50,7 @@ shadyInit title =
      -- (We can't initialise these things earlier since the GL resources that
      -- we are using wouldn't heve been setup yet)
      -- TODO experiment with moving some of these steps.
-     Gtk.onRealize canvas $ GtkGL.withGLDrawingArea canvas $ \_ ->
+     forget $ Gtk.onRealize canvas $ GtkGL.withGLDrawingArea canvas $ \_ ->
        do -- setupMatrices  -- do elsewhere, e.g., runSurface
           depthFunc  $= Just Less
           drawBuffer $= BackBuffers
@@ -63,7 +63,7 @@ shadyInit title =
           -- putStrLn "glEnableVSync"
           -- glEnableVSync True
      -- Sync canvas size with GL viewport
-     Gtk.onExpose canvas $ \_ -> 
+     forget $ Gtk.onExpose canvas $ \_ -> 
        do (w',h') <- Gtk.widgetGetSize canvas
           let w = fromIntegral w' ; h = fromIntegral h'
           -- viewport $= ((Position 0 0), (Size (fromIntegral w) (fromIntegral h)))
@@ -80,7 +80,7 @@ shadyInit title =
      -- putStrLn "showing window"
      Gtk.widgetShowAll window
      -- putStrLn "calling glewInit"
-     Glew.glewInit
+     forget $ Glew.glewInit
      -- putStrLn "past glewInit"
      -- Gtk.mainGUI
      -- putStrLn "returning from shady Init"
@@ -90,7 +90,7 @@ timedDisplay :: Gtk.Window -> GtkGL.GLDrawingArea -> Action -> IO ()
 timedDisplay window canvas render = 
   do timeout <- Gtk.timeoutAddFull (display canvas render >> return True)
                                    Gtk.priorityDefaultIdle period
-     Gtk.onDestroy window (Gtk.timeoutRemove timeout >> Gtk.mainQuit)
+     forget $ Gtk.onDestroy window (Gtk.timeoutRemove timeout >> Gtk.mainQuit)
      Gtk.mainGUI
  where
    period = 1000 `div` 60   -- milliseconds
