@@ -1,5 +1,5 @@
 Name:                shady-tv
-Version:             0.4.0
+Version:             0.5.0
 Cabal-Version:       >= 1.2
 Synopsis:            Functional GPU programming - user interfaces
 Category:            Graphics, Language
