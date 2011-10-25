@@ -1,5 +1,5 @@
 Name:                shady-tv
-Version:             0.5.0
+Version:             0.5.1
 Cabal-Version:       >= 1.2
 Synopsis:            Functional GPU programming - user interfaces
 Category:            Graphics, Language
@@ -21,13 +21,14 @@ build-type:          Simple
 Library
   hs-Source-Dirs:      src
 
-  Build-Depends:       base >=4 && < 5, mtl, TypeCompose, vector-space>=0.5.6
+  Build-Depends:       base >=4 && < 5, mtl
+                     , TypeCompose, vector-space>=0.5.6, type-nat
                      , shady-gen, shady-render
                      , glew, OpenGL>=2.4.0.1
                      -- , GLUT, time, array
                      -- For GUIs:
                      , gtk, gtkglext
-                     , GtkTV >= 0.1.5
+                     , GtkGLTV
 
   Exposed-Modules:
                        Shady.MechanicsGLGtk

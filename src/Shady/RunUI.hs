@@ -24,9 +24,9 @@ import Graphics.Glew (glewInit)
 
 import Control.Compose (result)
 
-import qualified Shady.Vec as V
+import qualified TypeNat.Vec as V
+
 import Shady.Language.Exp hiding (indices)
-import Shady.Misc (Sink,Action,forget)
 import Shady.Run (MeshSize,grid)
 import Shady.MechanicsGL (EyePos,mkIndices,setupMatrices)
 import Shady.RunSurface (FullSurf,compileSurf,EyePosE)
@@ -36,7 +36,7 @@ import Text.PrettyPrint.Leijen.DocExpr (HasExpr)
 import Graphics.Rendering.OpenGL (TextureObject(..))
 
 -- For UI examples
-import Interface.TV.Gtk
+import Interface.TV.Gtk.GL
 
 
 -- Geometry.  For now just a surface-with-image.
