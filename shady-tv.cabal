@@ -22,7 +22,7 @@ Library
   hs-Source-Dirs:      src
 
   Build-Depends:       base >=4 && < 5, mtl
-                     , TypeCompose, vector-space>=0.5.6, type-nat
+                     , TypeCompose, vector-space>=0.5.6, type-unary
                      , shady-gen, shady-render
                      , glew, OpenGL>=2.4.0.1
                      -- , GLUT, time, array
