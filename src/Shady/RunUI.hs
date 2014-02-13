@@ -62,10 +62,10 @@ compile1 f size eyePos@(ex,ey,ez) =
      -- putStrLn "setupMatrices"
      -- setupMatrices eyePos
      -- putStrLn "mkIndices"
-     setI <- mkIndices indices
+     setIxs <- mkIndices indices
      -- putStrLn "compileSurf"
      -- Set up matrices before rendering surface
-     compileSurf size vertices eyePosE (setupMatrices eyePos >> setI) f
+     compileSurf size vertices eyePosE (setupMatrices eyePos >> setIxs) f
  where
    eyePosE :: EyePosE
    eyePosE = pureE (V.vec3 ex ey ez)
